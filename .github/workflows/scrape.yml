@@ -2,9 +2,9 @@ name: Scrape Foody
 
 on:
   schedule:
-    # Mỗi 3 giờ = 8 lần/ngày (đủ để rate limit reset)
+    # Mỗi 3 giờ = 8 lần/ngày
     - cron: '0 */3 * * *'
-  workflow_dispatch:  # Chạy thủ công
+  workflow_dispatch:
 
 jobs:
   scrape:
@@ -13,7 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        # Fetch only latest commit to get previous data
         fetch-depth: 1
         sparse-checkout: |
           data/venues.json
@@ -33,6 +32,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add data/venues.json
-        git diff --staged --quiet || git commit -m "Update venues data $(date)"
+        git add -f data/venues.json
+        git diff --staged --quiet || git commit -m "Update venues $(date -u '+%Y-%m-%d %H:%M')"
         git push
