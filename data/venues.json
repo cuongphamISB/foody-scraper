@@ -11425,8 +11425,21 @@
       "lat": 10.83698,
       "lng": 106.56832,
       "source": "foody"
+    },
+    {
+      "id": "foody-1301733",
+      "name": "Trà Chill - Trà, Cà Phê & Đồ Ăn Vặt - Xuân Thới Thượng 14",
+      "address": "137/5K Đường Xuân Thới Thượng 14, Ấp 5, X. Bà Điểm",
+      "district": "Huyện Hóc Môn",
+      "city": "TP.HCM",
+      "rating": "_._",
+      "reviews": 0,
+      "cuisines": [],
+      "lat": 10.8672,
+      "lng": 106.563103,
+      "source": "foody"
     }
   ],
-  "total": 800,
-  "updated_at": "2026-08-25 09:27:31"
+  "total": 801,
+  "updated_at": "2026-08-25 12:32:21"
 }
