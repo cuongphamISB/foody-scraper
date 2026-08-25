@@ -18,23 +18,26 @@ jobs:
       with:
         fetch-depth: 1
         sparse-checkout: |
-          data/venues.json
+          data/foody-batch/venues.json
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: Install dependencies
-      run: pip install requests
+    - name: Install Playwright
+      run: |
+        pip install playwright
+        playwright install chromium --with-deps
 
-    - name: Run scraper
-      run: python scrape_foody_github.py
+    - name: Scrape with Playwright
+      run: python scrape_foody_playwright_action.py
+      timeout-minutes: 50
 
     - name: Commit and push
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add -f data/venues.json
+        git add -f data/foody-batch/venues.json
         git diff --staged --quiet || git commit -m "Update venues $(date -u '+%Y-%m-%d %H:%M')"
         git push
