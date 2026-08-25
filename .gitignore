@@ -1,0 +1,12 @@
+# Ignore everything except scripts and workflow
+*
+# But keep these
+!*.py
+!.github/
+!data/
+!README.md
+!.gitignore
+
+# Ignore pycache
+__pycache__/
+*.pyc
