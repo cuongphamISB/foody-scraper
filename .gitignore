@@ -1,12 +1,22 @@
-# Ignore everything except scripts and workflow
-*
-# But keep these
-!*.py
+# Ignore everything except these
 !.github/
+!.github/workflows/
+!.github/workflows/*.yml
+!.github/workflows/*.yaml
+!*.py
 !data/
+!data/*
 !README.md
 !.gitignore
 
-# Ignore pycache
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
