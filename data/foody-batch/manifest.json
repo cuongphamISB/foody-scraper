@@ -1,23 +1,7 @@
 {
-  "districts": {
-    "13": {
-      "name": "Quận 11",
-      "venues": 1094,
-      "pages": 32
-    },
-    "14": {
-      "name": "Quận 12",
-      "venues": 1088,
-      "pages": 32
-    },
-    "15": {
-      "name": "Bình Thạnh",
-      "venues": 1230,
-      "pages": 32
-    }
-  },
+  "districts": {},
   "total_venues": 26398,
-  "start_time": "2026-08-26T09:18:46.202449",
-  "end_time": "2026-08-26T09:22:09.437802",
-  "elapsed_seconds": 203.23533582687378
+  "start_time": "2026-08-26T09:26:07.328732",
+  "end_time": "2026-08-26T09:26:07.328827",
+  "elapsed_seconds": 3.0994415283203125e-05
 }
