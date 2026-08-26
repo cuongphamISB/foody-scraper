@@ -15,22 +15,33 @@ PROGRESS_FILE = Path('data/foody-batch/progress.json')
 # Config - all st values that return data
 ST_VALUES = [1, 2, 3, 4, 7, 11, 19, 20]  # 8 sort options
 PAGE_SIZE = 50
-MAX_PAGES_PER_ST = 4
+MAX_PAGES_PER_ST = 5  # 4 pages data + 1 safety buffer
 API_DELAY = 0.8
 
-# All cities with their districts
+# All cities with their districts - CORRECTED IDs verified from API
 CITIES = {
     'TP.HCM': {
         'provinceId': 217,
         'url': 'ho-chi-minh',
+        # Verified correct district IDs from API probe
         'districts': [
-            (1, 'Quận 1'), (2, 'Quận 2'), (3, 'Quận 3'), (4, 'Quận 4'),
-            (5, 'Quận 5'), (6, 'Quận 6'), (7, 'Quận 7'), (8, 'Quận 8'),
-            (9, 'Quận 9'), (10, 'Quận 10'), (11, 'Quận 11'), (12, 'Quận 12'),
-            (16, 'Bình Thạnh'), (17, 'Gò Vấp'), (18, 'Tân Bình'), (19, 'Tân Phú'),
-            (20, 'Phú Nhuận'), (21, 'Thủ Đức'), (24, 'Bình Tân'),
-            (22, 'Bình Chánh'), (25, 'Củ Chi'), (26, 'Hóc Môn'),
-            (27, 'Nhà Bè'), (28, 'Cần Giờ'),
+            (1, 'Quận 1'),
+            (2, 'Gò Vấp'),     # ID 2 = Gò Vấp
+            (4, 'Quận 2'),
+            (5, 'Quận 3'),
+            (6, 'Quận 4'),
+            (8, 'Quận 6'),
+            (9, 'Quận 7'),
+            (10, 'Quận 8'),
+            (11, 'Quận 9'),
+            (12, 'Quận 10'),
+            (13, 'Quận 11'),
+            (14, 'Quận 12'),
+            (15, 'Bình Thạnh'),
+            (16, 'Tân Bình'),
+            (17, 'Phú Nhuận'),
+            (18, 'Bình Tân'),
+            (19, 'Tân Phú'),
         ]
     },
     'Hanoi': {
