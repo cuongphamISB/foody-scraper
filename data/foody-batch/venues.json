@@ -4991,8 +4991,21 @@
       "lat": 10.76981,
       "lng": 106.644797,
       "source": "foody"
+    },
+    {
+      "id": "foody-1084348",
+      "name": "Linh Trang Anh - Phở Gà & Bún Thang Phố Cổ Hà Nội - Đường 79",
+      "address": "185 Đường 79, P. Tân Quý, Quận 7, TP. HCM",
+      "district": null,
+      "city": "TP.HCM",
+      "rating": 5.9,
+      "reviews": 2,
+      "cuisines": [],
+      "lat": 10.740712,
+      "lng": 106.704818,
+      "source": "foody"
     }
   ],
-  "total": 384,
-  "updated_at": "2026-08-26 03:49:16"
+  "total": 385,
+  "updated_at": "2026-08-26 05:10:48"
 }
