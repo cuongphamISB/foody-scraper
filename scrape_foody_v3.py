@@ -29,13 +29,14 @@ MAX_RETRIES = 2
 MIN_VENUES_PER_DISTRICT = 10  # Coverage gate
 
 # TP.HCM districts - verified correct IDs from API
+# Suburbs (20-28) return Hanoi data, skip them
 CITY_CONFIG = {
     'TP.HCM': {
         'provinceId': 217,
         'url': 'ho-chi-minh',
         'districts': [
             (1, 'Quận 1'),
-            (2, 'Gò Vấp'),        # ID 2 = Gò Vấp
+            (2, 'Gò Vấp'),
             (4, 'Quận 2'),
             (5, 'Quận 3'),
             (6, 'Quận 4'),
@@ -54,6 +55,10 @@ CITY_CONFIG = {
         ]
     }
 }
+
+# Skip these cities for now - focus on HCM first
+# 'Hanoi': {...}
+# 'DaNang': {...}
 
 # Districts not in API (suburbs/huyện):
 # 3, 7, 20, 21, 22, 24, 25, 26, 27, 28
