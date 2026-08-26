@@ -159,26 +159,29 @@ def main():
 
     log(f'Completed districts: {len(completed)}/{len(DISTRICTS)}')
 
-    # Find next district
-    next_district = None
-    for dist_id, dist_name in DISTRICTS:
-        if dist_id not in completed:
-            next_district = (dist_id, dist_name)
-            break
-
-    if not next_district:
-        log('All districts completed!')
-        save_venues(all_venues)
-        return
-
-    district_id, district_name = next_district
+    # Scrape multiple districts per run
+    districts_per_run = 15  # Estimate: 15 districts × 2 min = 30 min
+    districts_scraped = 0
 
     start_time = time.time()
-    new_venues = scrape_district_http(district_id, district_name, seen_ids)
 
-    all_venues.extend(new_venues)
+    for dist_id, dist_name in DISTRICTS:
+        if dist_id in completed:
+            continue
 
-    completed.append(district_id)
+        # Check time budget (leave 5 min buffer)
+        elapsed = time.time() - start_time
+        if elapsed > 45 * 60:  # 45 minutes
+            log(f'Time budget exhausted after {districts_scraped} districts')
+            break
+
+        new_venues = scrape_district_http(dist_id, dist_name, seen_ids)
+        all_venues.extend(new_venues)
+        completed.append(dist_id)
+        districts_scraped += 1
+
+        log(f'  Progress: {len(completed)}/{len(DISTRICTS)} districts, {len(all_venues)} venues')
+
     progress['completed_districts'] = completed
     progress['total_runs'] = progress.get('total_runs', 0) + 1
     progress['last_run'] = time.strftime('%Y-%m-%d %H:%M:%S')
@@ -189,9 +192,8 @@ def main():
     elapsed = time.time() - start_time
     log(f'')
     log(f'=== Session Complete ===')
-    log(f'  District: {district_name}')
-    log(f'  New venues: +{len(new_venues)}')
-    log(f'  Total: {len(all_venues)}')
+    log(f'  Districts scraped: {districts_scraped}')
+    log(f'  Total venues: {len(all_venues)}')
     log(f'  Districts done: {len(completed)}/{len(DISTRICTS)}')
     log(f'  Time: {elapsed:.1f}s')
 
