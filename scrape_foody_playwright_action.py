@@ -77,7 +77,7 @@ def scrape(p, venues):
         page.wait_for_timeout(2000)
 
         clicks = 0
-        max_clicks = 30
+        max_clicks = 60  # More clicks = more venues
 
         while clicks < max_clicks:
             button = None
