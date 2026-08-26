@@ -1,206 +1,23 @@
 {
-  "scrape_date": "2026-08-26 15:59:42",
-  "total_venues": 20888,
   "districts": {
-    "Quận Gò Vấp": {
-      "venues": 1254,
-      "unique_ids": 1254,
-      "region": "Other"
+    "13": {
+      "name": "Quận 11",
+      "venues": 1094,
+      "pages": 32
     },
-    "Quận Tân Phú": {
-      "venues": 1231,
-      "unique_ids": 1231,
-      "region": "Other"
-    },
-    "Quận Bình Thạnh": {
-      "venues": 1230,
-      "unique_ids": 1230,
-      "region": "Other"
-    },
-    "Quận 3": {
-      "venues": 1204,
-      "unique_ids": 1204,
-      "region": "TP.HCM"
-    },
-    "Quận Tân Bình": {
-      "venues": 1196,
-      "unique_ids": 1196,
-      "region": "Other"
-    },
-    "Quận 7": {
-      "venues": 1192,
-      "unique_ids": 1192,
-      "region": "TP.HCM"
-    },
-    "Quận 10": {
-      "venues": 1191,
-      "unique_ids": 1191,
-      "region": "TP.HCM"
-    },
-    "Quận 1": {
-      "venues": 1186,
-      "unique_ids": 1186,
-      "region": "TP.HCM"
-    },
-    "Quận Phú Nhuận": {
-      "venues": 1174,
-      "unique_ids": 1174,
-      "region": "Other"
-    },
-    "Quận Bình Tân": {
-      "venues": 1170,
-      "unique_ids": 1170,
-      "region": "Other"
-    },
-    "Quận 8": {
-      "venues": 1128,
-      "unique_ids": 1128,
-      "region": "TP.HCM"
-    },
-    "Quận 6": {
-      "venues": 1106,
-      "unique_ids": 1106,
-      "region": "TP.HCM"
-    },
-    "Quận 11": {
-      "venues": 1093,
-      "unique_ids": 1093,
-      "region": "TP.HCM"
-    },
-    "Quận 12": {
+    "14": {
+      "name": "Quận 12",
       "venues": 1088,
-      "unique_ids": 1088,
-      "region": "TP.HCM"
+      "pages": 32
     },
-    "Quận 4": {
-      "venues": 1085,
-      "unique_ids": 1085,
-      "region": "TP.HCM"
-    },
-    "Quận 5": {
-      "venues": 1046,
-      "unique_ids": 1046,
-      "region": "TP.HCM"
-    },
-    "Quận 9": {
-      "venues": 780,
-      "unique_ids": 780,
-      "region": "TP.HCM"
-    },
-    "Quận 2": {
-      "venues": 766,
-      "unique_ids": 766,
-      "region": "TP.HCM"
-    },
-    "Unknown": {
-      "venues": 168,
-      "unique_ids": 168,
-      "region": "Other"
-    },
-    "Thị Xã Sơn Tây": {
-      "venues": 152,
-      "unique_ids": 152,
-      "region": "Other"
-    },
-    "Huyện Ba Vì": {
-      "venues": 131,
-      "unique_ids": 131,
-      "region": "Other"
-    },
-    "Huyện Hoài Đức": {
-      "venues": 92,
-      "unique_ids": 92,
-      "region": "Other"
-    },
-    "Huyện Thạch Thất": {
-      "venues": 51,
-      "unique_ids": 51,
-      "region": "Other"
-    },
-    "Huyện Đan Phượng": {
-      "venues": 45,
-      "unique_ids": 45,
-      "region": "Other"
-    },
-    "Huyện Quốc Oai": {
-      "venues": 23,
-      "unique_ids": 23,
-      "region": "Other"
-    },
-    "Huyện Chương Mỹ": {
-      "venues": 20,
-      "unique_ids": 20,
-      "region": "Other"
-    },
-    "Quận Đống Đa": {
-      "venues": 12,
-      "unique_ids": 12,
-      "region": "Other"
-    },
-    "Quận Hà Đông": {
-      "venues": 11,
-      "unique_ids": 11,
-      "region": "Other"
-    },
-    "Quận Cầu Giấy": {
-      "venues": 10,
-      "unique_ids": 10,
-      "region": "Other"
-    },
-    "Quận Hoàn Kiếm": {
-      "venues": 10,
-      "unique_ids": 10,
-      "region": "Other"
-    },
-    "Quận Ba Đình": {
-      "venues": 8,
-      "unique_ids": 8,
-      "region": "Other"
-    },
-    "Huyện Phúc Thọ": {
-      "venues": 6,
-      "unique_ids": 6,
-      "region": "Other"
-    },
-    "Quận Bắc Từ Liêm": {
-      "venues": 5,
-      "unique_ids": 5,
-      "region": "Other"
-    },
-    "Huyện Mê Linh": {
-      "venues": 5,
-      "unique_ids": 5,
-      "region": "Other"
-    },
-    "Quận Thanh Xuân": {
-      "venues": 5,
-      "unique_ids": 5,
-      "region": "Other"
-    },
-    "Quận Tây Hồ": {
-      "venues": 4,
-      "unique_ids": 4,
-      "region": "Other"
-    },
-    "Quận Nam Từ Liêm": {
-      "venues": 4,
-      "unique_ids": 4,
-      "region": "Other"
-    },
-    "Quận Hoàng Mai": {
-      "venues": 3,
-      "unique_ids": 3,
-      "region": "Other"
-    },
-    "Quận Hai Bà Trưng": {
-      "venues": 2,
-      "unique_ids": 2,
-      "region": "Other"
-    },
-    "Huyện Sóc Sơn": {
-      "venues": 1,
-      "unique_ids": 1,
-      "region": "Other"
+    "15": {
+      "name": "Bình Thạnh",
+      "venues": 1230,
+      "pages": 32
     }
-  }
+  },
+  "total_venues": 26398,
+  "start_time": "2026-08-26T09:18:46.202449",
+  "end_time": "2026-08-26T09:22:09.437802",
+  "elapsed_seconds": 203.23533582687378
 }
