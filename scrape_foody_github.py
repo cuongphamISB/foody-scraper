@@ -17,7 +17,7 @@ PROGRESS_FILE = Path('data/foody-batch/progress.json')
 ST_VALUES = [1, 2, 3, 4, 5, 6, 7]
 PAGE_SIZE = 50
 MAX_PAGES_PER_ST = 4
-API_DELAY = 1.5
+API_DELAY = 1.0  # Faster to complete more districts
 
 # HCM Districts
 DISTRICTS = [
@@ -160,7 +160,8 @@ def main():
     log(f'Completed districts: {len(completed)}/{len(DISTRICTS)}')
 
     # Scrape multiple districts per run
-    districts_per_run = 15  # Estimate: 15 districts × 2 min = 30 min
+    # 12 districts × 65s = ~13 min, but leave buffer for network variance
+    districts_per_run = 10
     districts_scraped = 0
 
     start_time = time.time()
@@ -171,7 +172,7 @@ def main():
 
         # Check time budget (leave 5 min buffer)
         elapsed = time.time() - start_time
-        if elapsed > 45 * 60:  # 45 minutes
+        if elapsed > 40 * 60:  # 40 minutes
             log(f'Time budget exhausted after {districts_scraped} districts')
             break
 
@@ -180,14 +181,17 @@ def main():
         completed.append(dist_id)
         districts_scraped += 1
 
-        log(f'  Progress: {len(completed)}/{len(DISTRICTS)} districts, {len(all_venues)} venues')
+        # Save after EACH district to avoid losing progress
+        progress['completed_districts'] = completed
+        save_progress(progress)
+        save_venues(all_venues)
 
-    progress['completed_districts'] = completed
+        log(f'  Progress: {len(completed)}/{len(DISTRICTS)} districts, {len(all_venues)} venues, {elapsed:.0f}s elapsed')
+
     progress['total_runs'] = progress.get('total_runs', 0) + 1
     progress['last_run'] = time.strftime('%Y-%m-%d %H:%M:%S')
 
     save_progress(progress)
-    save_venues(all_venues)
 
     elapsed = time.time() - start_time
     log(f'')
