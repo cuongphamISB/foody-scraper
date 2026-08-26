@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Foody Scraper - GitHub Actions Playwright Edition
-Uses browser automation to scroll and get all venues
+Clicks "Xem thêm" button to load more venues
 """
 import json
 import time
@@ -13,10 +13,9 @@ OUTPUT_FILE = Path('data/foody-batch/venues.json')
 PROGRESS_FILE = Path('data/foody-batch/progress.json')
 OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 
-# Config - GitHub Actions timeout is 50 min, leave buffer
-MAX_SCROLL_SESSIONS = 8  # ~5 min each = 40 min total
-SCROLL_PAUSE = 2.0  # Seconds to wait after scroll
-SCROLL_ITERATIONS = 25  # Scrolls per session
+# Config
+MAX_CLICK_SESSIONS = 8  # ~5 min each
+CLICK_DELAY = 2.0  # Seconds after click
 
 def log(msg):
     ts = time.strftime('%H:%M:%S')
@@ -26,11 +25,7 @@ def load_progress():
     if PROGRESS_FILE.exists():
         with open(PROGRESS_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
-    return {
-        'venues': [],
-        'scrolled_count': 0,
-        'session': 0,
-    }
+    return {'venues': [], 'clicks': 0, 'session': 0}
 
 def save_progress(data):
     with open(PROGRESS_FILE, 'w', encoding='utf-8') as f:
@@ -53,12 +48,12 @@ def save_venues(venues):
         }, f, ensure_ascii=False, indent=2)
     log(f'Saved {len(venues)} venues')
 
-def scrape_with_scroll(p, venues):
-    """Scroll through Foody page to load more venues"""
+def scrape_with_button_click(p, venues):
+    """Click 'Xem thêm' button to load more venues"""
     seen_ids = {v['id'] for v in venues}
     new_count = 0
+    captured = []
 
-    # Create browser
     context = p.chromium.launch(
         headless=True,
         args=['--no-sandbox', '--disable-dev-shm-usage']
@@ -69,11 +64,8 @@ def scrape_with_scroll(p, venues):
 
     page = context.new_page()
 
-    # Track captured venues from API
-    captured = []
-
     def capture_response(response):
-        if '__get/Directory/IndexAsync' in response.url or 'HomeListPlace' in response.url:
+        if 'Directory' in response.url or 'HomeList' in response.url:
             try:
                 body = response.body()
                 if body:
@@ -87,43 +79,55 @@ def scrape_with_scroll(p, venues):
     page.on('response', capture_response)
 
     try:
-        # Navigate
         log('Navigating to Foody...')
         page.goto('https://www.foody.vn/ho-chi-minh/o-dau',
                  wait_until='networkidle', timeout=60000)
         page.wait_for_timeout(2000)
 
-        # Get initial count
-        initial_count = len(seen_ids)
-        log(f'Initial venues loaded: {initial_count}')
+        log(f'Initial captured: {len(captured)} responses')
 
-        # Scroll to load more
-        last_height = 0
-        scroll_no_progress = 0
+        # Click "Xem thêm" button multiple times
+        clicks = 0
+        max_clicks = 30
 
-        for i in range(SCROLL_ITERATIONS):
-            # Scroll down
-            page.evaluate('window.scrollTo(0, document.body.scrollHeight)')
-            time.sleep(SCROLL_PAUSE)
+        while clicks < max_clicks:
+            # Try multiple button selectors
+            button = None
+            selectors = [
+                'button:has-text("Xem thêm")',
+                '.btn-more',
+                '[class*="more"]',
+                'a:has-text("Xem thêm")',
+                '.ld-more',
+            ]
 
-            new_height = page.evaluate('document.body.scrollHeight')
+            for sel in selectors:
+                try:
+                    btn = page.query_selector(sel)
+                    if btn and btn.is_visible():
+                        button = btn
+                        break
+                except:
+                    pass
 
-            if new_height == last_height:
-                scroll_no_progress += 1
-                if scroll_no_progress >= 3:
-                    log(f'No more content after {i+1} scrolls')
-                    break
-            else:
-                scroll_no_progress = 0
+            if not button:
+                log(f'No more "Xem thêm" button after {clicks} clicks')
+                break
 
-            last_height = new_height
-            log(f'Scroll {i+1}/{SCROLL_ITERATIONS}: height={new_height}')
+            log(f'Clicking "Xem thêm" ({clicks + 1})...')
+            button.click()
+            time.sleep(CLICK_DELAY)
+            clicks += 1
 
-        # Extract venues from captured API responses
+            # Log progress
+            if clicks % 5 == 0:
+                log(f'Clicked {clicks} times, captured {len(captured)} responses')
+
+        log(f'Done clicking. Total clicks: {clicks}')
+
+        # Extract venues from captured responses
         for data in captured:
             items = None
-
-            # Try different structures
             if 'searchItems' in data:
                 items = data['searchItems']
             elif 'Items' in data:
@@ -137,7 +141,6 @@ def scrape_with_scroll(p, venues):
                     if vid not in seen_ids:
                         seen_ids.add(vid)
 
-                        # Extract cuisines
                         cuisines = []
                         raw = item.get('Cuisines') or item.get('LstCuisine') or []
                         if isinstance(raw, list):
@@ -159,7 +162,7 @@ def scrape_with_scroll(p, venues):
                         new_count += 1
 
         log(f'Captured {len(captured)} API responses')
-        log(f'New venues this session: +{new_count}')
+        log(f'New venues: +{new_count}')
 
     except Exception as e:
         log(f'Error: {e}')
@@ -171,10 +174,9 @@ def scrape_with_scroll(p, venues):
 
 def main():
     log('='*60)
-    log('FOODY SCRAPER - PLAYWRIGHT (GitHub Actions)')
+    log('FOODY SCRAPER - PLAYWRIGHT (Click Button)')
     log('='*60)
 
-    # Load existing
     venues = load_existing()
     progress = load_progress()
 
@@ -184,17 +186,16 @@ def main():
     new_total = 0
 
     with sync_playwright() as p:
-        for session in range(progress.get('session', 0), MAX_SCROLL_SESSIONS):
-            log(f'\\n--- Session {session + 1}/{MAX_SCROLL_SESSIONS} ---')
+        for session in range(progress.get('session', 0), MAX_CLICK_SESSIONS):
+            log(f'\n--- Session {session + 1}/{MAX_CLICK_SESSIONS} ---')
 
-            venues, new_count = scrape_with_scroll(p, venues)
+            venues, new_count = scrape_with_button_click(p, venues)
             new_total += new_count
 
-            # Save progress
             progress = {
                 'venues': venues,
                 'session': session + 1,
-                'scrolled_count': progress.get('scrolled_count', 0) + new_count,
+                'clicks': progress.get('clicks', 0) + new_count,
             }
             save_progress(progress)
             save_venues(venues)
@@ -203,11 +204,10 @@ def main():
                 log('No new venues, stopping')
                 break
 
-            # Small delay between sessions
-            if session < MAX_SCROLL_SESSIONS - 1:
+            if session < MAX_CLICK_SESSIONS - 1:
                 time.sleep(3)
 
-    log(f'\\nDONE! +{new_total} new, {len(venues)} total')
+    log(f'\nDONE! +{new_total} new, {len(venues)} total')
 
 if __name__ == '__main__':
     main()
