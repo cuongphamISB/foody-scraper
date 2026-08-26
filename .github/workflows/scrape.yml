@@ -19,6 +19,7 @@ jobs:
         fetch-depth: 1
         sparse-checkout: |
           data/foody-batch/
+          scrape_foody_v3.py
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -29,7 +30,7 @@ jobs:
       run: pip install requests
 
     - name: Scrape Foody
-      run: python scrape_foody_github.py
+      run: python scrape_foody_v3.py
       timeout-minutes: 50
 
     - name: Commit and push
